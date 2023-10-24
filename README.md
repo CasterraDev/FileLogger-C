@@ -1,8 +1,8 @@
 # File Logger
 
-must initialize before use.
+Must initialize before use.
 
-similar to how Vulkan initializes systems.
+Similar to how Vulkan initializes systems.
 
 First call gives back the needed memory requirement. State parameter must be zero.
 
@@ -22,11 +22,13 @@ loggerMemState = malloc(sizeof(memoryRequirement));
 Then finally actually initalize the logger system.
 
 ```c
-loggerInit(&memoryRequirement, "logger.log", loggerMemState);
+loggerInit(&memoryRequirement, "appLogger.log", loggerMemState);
 ```
 
 The loggerFile does matter in this call.
+
 Parameters `memoryRequirement` and `loggerMemState` should not be local to a function.
+
 Do NOT do this setup more than once. Behavior is undefined. Could leak memory or corrupt files.
 
 Call `loggerShutdown()` after all logging.
@@ -58,13 +60,14 @@ typedef struct state{
 } state;
 
 int main(){
-    state state = malloc(sizeof(struct state));
-    loggerInit(&state.memoryRequirement, "Doesn't matter", 0);
-    loggerMemState = malloc(sizeof(memoryRequirement));
-    loggerInit(&state.memoryRequirement, "logger.log", state.loggerMemState);
+    state* state = malloc(sizeof(struct state));
 
-    // Can now use logger functions
-    // ... Programy Things ...
+    loggerInit(&state->memoryRequirement, "appLogger.log", 0);
+    state->loggerMemState = malloc(state->memoryRequirement);
+    loggerInit(&state->memoryRequirement, "appLogger.log", state->loggerMemState);
+    //Can now use logger functions
+
+    FERROR("Hello %d", 1, 23);
 
     loggerShutdown();
 }
