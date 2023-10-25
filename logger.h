@@ -30,24 +30,22 @@ typedef enum logLevel {
 char loggerInit(int* memoryRequirement, const char* logFile, void* state);
 void loggerShutdown();
 
-void logToFile(logLevel level, char logToConsole, const char* message, ...);
-
-void logOutput(logLevel level, const char* message, ...);
+void logOutput(logLevel level, char logToConsole, char logToFile, const char* message, ...);
 
 // Logs a fatal-level message.
-#define FATAL(message, ...) logOutput(LOG_LEVEL_FATAL, message, ##__VA_ARGS__);
-#define FFATAL(message, toConsole, ...) logToFile(LOG_LEVEL_FATAL, toConsole, message, ##__VA_ARGS__);
+#define FATAL(message, ...) logOutput(LOG_LEVEL_FATAL, 1, 0, message, ##__VA_ARGS__);
+#define FFATAL(message, toConsole, ...) logOutput(LOG_LEVEL_FATAL, toConsole, 1, message, ##__VA_ARGS__);
 
 #ifndef ERROR
 // Logs an error-level message.
-#define ERROR(message, ...) logOutput(LOG_LEVEL_ERROR, message, ##__VA_ARGS__);
-#define FERROR(message, toConsole, ...) logToFile(LOG_LEVEL_ERROR, toConsole, message, ##__VA_ARGS__);
+#define ERROR(message, ...) logOutput(LOG_LEVEL_ERROR, 1, 0, message, ##__VA_ARGS__);
+#define FERROR(message, toConsole, ...) logOutput(LOG_LEVEL_ERROR, toConsole, 1, message, ##__VA_ARGS__);
 #endif
 
 #if LOG_WARN_ENABLED == 1
 // Logs a warning-level message.
-#define WARN(message, ...) logOutput(LOG_LEVEL_WARN, message, ##__VA_ARGS__);
-#define FWARN(message, toConsole, ...) logToFile(LOG_LEVEL_WARN, toConsole, message, ##__VA_ARGS__);
+#define WARN(message, ...) logOutput(LOG_LEVEL_WARN, 1, 0, message, ##__VA_ARGS__);
+#define FWARN(message, toConsole, ...) logOutput(LOG_LEVEL_WARN, toConsole, 1, message, ##__VA_ARGS__);
 #else
 // Does nothing when LOG_WARN_ENABLED is false
 #define WARN(message, ...)
@@ -56,8 +54,8 @@ void logOutput(logLevel level, const char* message, ...);
 
 #if LOG_INFO_ENABLED == 1
 // Logs a info-level message.
-#define INFO(message, ...) logOutput(LOG_LEVEL_INFO, message, ##__VA_ARGS__);
-#define FINFO(message, toConsole, ...) logToFile(LOG_LEVEL_INFO, toConsole, message, ##__VA_ARGS__);
+#define INFO(message, ...) logOutput(LOG_LEVEL_INFO, 1, 0, message, ##__VA_ARGS__);
+#define FINFO(message, toConsole, ...) logOutput(LOG_LEVEL_INFO, toConsole, 1, message, ##__VA_ARGS__);
 #else
 // Does nothing when LOG_INFO_ENABLED is false
 #define INFO(message, ...)
@@ -66,8 +64,8 @@ void logOutput(logLevel level, const char* message, ...);
 
 #if LOG_DEBUG_ENABLED == 1
 // Logs a debug-level message.
-#define DEBUG(message, ...) logOutput(LOG_LEVEL_DEBUG, message, ##__VA_ARGS__);
-#define FDEBUG(message, toConsole, ...) logToFile(LOG_LEVEL_DEBUG, toConsole, message, ##__VA_ARGS__);
+#define DEBUG(message, ...) logOutput(LOG_LEVEL_DEBUG, 1, 0, message, ##__VA_ARGS__);
+#define FDEBUG(message, toConsole, ...) logOutput(LOG_LEVEL_DEBUG, toConsole, 1, message, ##__VA_ARGS__);
 #else
 // Does nothing when LOG_DEBUG_ENABLED is false
 #define DEBUG(message, ...)
@@ -76,8 +74,8 @@ void logOutput(logLevel level, const char* message, ...);
 
 #if LOG_TRACE_ENABLED == 1
 // Logs a trace-level message.
-#define TRACE(message, ...) logOutput(LOG_LEVEL_TRACE, message, ##__VA_ARGS__);
-#define FTRACE(message, toConsole, ...) logToFile(LOG_LEVEL_TRACE, toConsole, message, ##__VA_ARGS__);
+#define TRACE(message, ...) logOutput(LOG_LEVEL_TRACE, 1, 0, message, ##__VA_ARGS__);
+#define FTRACE(message, toConsole, ...) logOutput(LOG_LEVEL_TRACE, toConsole, 1, message, ##__VA_ARGS__);
 #else
 // Does nothing when LOG_TRACE_ENABLED is false
 #define TRACE(message, ...)
