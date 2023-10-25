@@ -39,6 +39,7 @@ Console log functions E.x `ERROR("Message is %s.\n", "put here")`
 
 - FATAL
 - ERROR
+- WARN
 - INFO
 - DEBUG
 - TRACE
@@ -47,6 +48,7 @@ File log functions. Additional parameter `char logToConsoleAswell`. E.x `FERROR(
 
 - FFATAL
 - FERROR
+- FWARN
 - FINFO
 - FDEBUG
 - FTRACE
